@@ -248,7 +248,48 @@ class MpmDbHelper
             }
             if (!MpmDbHelper::checkForDbTable())
             {
-                $problems[] = 'Migrations table not found in your database.  Re-run the init command.';
+                echo "Creating migrations table... ";
+                $db_config = $GLOBALS['db_config'];
+                $migrations_table = $db_config->migrations_table;
+                $sql1 = "CREATE TABLE IF NOT EXISTS `{$migrations_table}` ( `id` INT(11) NOT NULL AUTO_INCREMENT, `timestamp` DATETIME NOT NULL, `active` TINYINT(1) NOT NULL DEFAULT 0, `is_current` TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY ( `id` ) ) ENGINE=InnoDB";
+                $sql2 = "CREATE UNIQUE INDEX `TIMESTAMP_INDEX` ON `{$migrations_table}` ( `timestamp` )";
+                if (MpmDbHelper::getMethod() == MPM_METHOD_PDO)
+                {
+                    $pdo = MpmDbHelper::getDbObj();
+                    $pdo->beginTransaction();
+                    try
+                    {
+                        $pdo->exec($sql1);
+                        $pdo->exec($sql2);
+                    }
+                    catch (Exception $e)
+                    {
+                        $pdo->rollback();
+                        echo "failure!\n\n" . 'Unable to create required ' . $migrations_table . ' table:' . $e->getMessage();
+                        echo "\n\n";
+                        exit;
+                    }
+                    $pdo->commit();
+                }
+                else
+                {
+                    $mysqli = MpmDbHelper::getDbObj();
+                    $mysqli->query($sql1);
+                    if ($mysqli->errno)
+                    {
+                        echo "failure!\n\n" . 'Unable to create required ' . $migrations_table . ' table:' . $mysqli->error;
+                        echo "\n\n";
+                        exit;
+                    }
+                    $mysqli->query($sql2);
+                    if ($mysqli->errno)
+                    {
+                        echo "failure!\n\n" . 'Unable to create required ' . $migrations_table . ' table:' . $mysqli->error;
+                        echo "\n\n";
+                        exit;
+                    }
+                }
+                echo "done.\n\n";
             }
             if (count($problems) > 0)
             {
