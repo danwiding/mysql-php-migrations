@@ -3,7 +3,7 @@ $_SERVER['HTTP_HOST'] = 'localhost';
 if(!defined("JUNTO_BASE_FOR_MIGRATE"))
     define('JUNTO_BASE_FOR_MIGRATE', dirname(dirname(dirname(MPM_PATH))));
 
-if(AUTOMATED_TESTING=='On'){
+if(defined('AUTOMATED_TESTING') && AUTOMATED_TESTING =='On'){
     require_once(JUNTO_BASE_FOR_MIGRATE . '/config/wordpress-app/wp-config-phpunit-test.php');
 }
 else{
