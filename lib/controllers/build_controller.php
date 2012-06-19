@@ -134,7 +134,7 @@ class MpmBuildController extends MpmController
         $this->build($with_data);
 
         $clw->writeFooter();
-        exit;
+
 
 	}
 
@@ -153,6 +153,9 @@ class MpmBuildController extends MpmController
 	 */
 	public function build($with_data)
 	{
+        $forced = isset($this->arguments[0]) && $this->arguments[0] == '--force';
+        $quiet=$forced;
+
 	    require_once(MPM_DB_PATH . 'schema.php');
 	    $obj = new MpmInitialSchema();
 	    $obj->destroy();

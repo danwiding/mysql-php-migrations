@@ -2,7 +2,13 @@
 $_SERVER['HTTP_HOST'] = 'localhost';
 if(!defined("JUNTO_BASE_FOR_MIGRATE"))
     define('JUNTO_BASE_FOR_MIGRATE', dirname(dirname(dirname(MPM_PATH))));
-require_once(JUNTO_BASE_FOR_MIGRATE . '/config/wordpress-app/wp-config-local.php');
+
+if(AUTOMATED_TESTING=='On'){
+    require_once(JUNTO_BASE_FOR_MIGRATE . '/config/wordpress-app/wp-config-phpunit-test.php');
+}
+else{
+    require_once(JUNTO_BASE_FOR_MIGRATE . '/config/wordpress-app/wp-config-local.php');
+}
 require_once(JUNTO_BASE_FOR_MIGRATE . '/juntobasepress/junto-common/sensitive-config-loader.php');
 SensitiveConfigLoader(JUNTO_BASE_FOR_MIGRATE . '/config/sensitive/wp-sensitive-local.json');
 
