@@ -12,6 +12,7 @@ else{
 require_once(JUNTO_BASE_FOR_MIGRATE . '/juntobasepress/junto-common/sensitive-config-loader.php');
 SensitiveConfigLoader(JUNTO_BASE_FOR_MIGRATE . '/config/sensitive/wp-sensitive-local.json');
 
+$matchArray=array();
 $error=preg_match('/([^:]+):?([^:]*)/',DB_HOST,$matchArray);
 
 $db_config = (object) array();
