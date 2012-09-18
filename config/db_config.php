@@ -16,8 +16,8 @@ $matchArray=array();
 $error=preg_match('/([^:]+):?([^:]*)/',DB_HOST,$matchArray);
 
 $db_config = (object) array();
-$db_config->host = !$error ? $matchArray[0] : DB_HOST;
-$db_config->port = (!$error && count($matchArray)>1) ? $matchArray[1] : '3306';
+$db_config->host = $matchArray[1];
+$db_config->port = (count($matchArray)>2) ? $matchArray[2] : '3306';
 $db_config->name = DB_NAME;
 $db_config->db_path = dirname(dirname(dirname(MPM_PATH))) . '/db/migrations/';
 $db_config->method = 1;
