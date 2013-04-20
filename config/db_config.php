@@ -9,7 +9,7 @@ if(defined('AUTOMATED_TESTING') && AUTOMATED_TESTING =='On'){
 else{
     require_once(JUNTO_BASE_FOR_MIGRATE . '/config/wordpress-app/wp-config-local.php');
 }
-require_once(JUNTO_BASE_FOR_MIGRATE . '/juntobasepress/junto-common/sensitive-config-loader.php');
+require_once(JUNTO_BASE_FOR_MIGRATE . '/basepress/junto-common/sensitive-config-loader.php');
 SensitiveConfigLoader(JUNTO_BASE_FOR_MIGRATE . '/config/sensitive/wp-sensitive-local.json');
 
 $matchArray=array();
